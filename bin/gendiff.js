@@ -3,6 +3,6 @@
 import { program } from 'commander';
 
 program
-   .description('Compares two configuration files and shows a difference.')
-   .version('', '-V, --version');
-   program.parse();
+  .description('Compares two configuration files and shows a difference.')
+  .version('1.0.0', '-v, --version');
+  program.parse();
