@@ -4,8 +4,8 @@ import path from 'path';
 import makeAsTree from './makeAsTree.js';
 
 const genDiff = (filePath1, filePath2) => {
-   const fullFilePath1 = path.resolve(process.cwd(),filePath1);
-   const fullFilePath2 = path.resolve(process.cwd(),filePath2);
+   const fullFilePath1 = path.resolve(process.cwd(), filePath1);
+   const fullFilePath2 = path.resolve(process.cwd(), filePath2);
    const file1 = readFileSync(fullFilePath1);
    const file2 = readFileSync(fullFilePath2);
    const file1AsObject = JSON.parse(file1);
