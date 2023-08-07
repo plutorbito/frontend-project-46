@@ -14,5 +14,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Lint
+    - name: lint
       run: make lint
+
+    - name: run tests
+      run: npm test
