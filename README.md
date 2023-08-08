@@ -12,3 +12,4 @@
 
 ### Examples
 * https://asciinema.org/a/7Z5TCB623t1gciHqAi7AyGV3F
+* https://asciinema.org/a/EXr0lOtW5vOibraaWMNPNxJSX
