@@ -3,14 +3,13 @@ import path from 'path';
 import yaml from 'js-yaml';
 
 const getParsedData = (fullFilePath) => {
-   const file = readFileSync(fullFilePath);
    const format = path.extname(fullFilePath);
    switch (format) {
       case '.json':
-         return JSON.parse(file);
+         return JSON.parse(readFileSync(fullFilePath));
       case '.yml':
       case '.yaml':
-         return yaml.load(file);
+         return yaml.load(readFileSync(fullFilePath));
       default:
          throw new Error(`Unknown format: '${format}'!`);
    }

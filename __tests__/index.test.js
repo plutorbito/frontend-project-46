@@ -25,3 +25,9 @@ test('genDiff for json', () => {
 test('genDiff for yaml', () => {
    expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'))).toEqual(expected);
 });
+
+test('genDiff for unknown format', () => {
+   expect(() => {
+      genDiff(getFixturePath('file1.abc'), getFixturePath('file2.json'))
+   }).toThrow(`Unknown format: '.abc'!`);
+});
