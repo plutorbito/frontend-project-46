@@ -1,6 +1,6 @@
 import process from 'node:process';
 import path from 'path';
-import makeAsTree from './makeAsTree.js';
+import makeTree from './makeTree.js';
 import getParsedData from './parsers.js';
 import makeStylish from './formatters.js';
 
@@ -9,7 +9,7 @@ const genDiff = (filePath1, filePath2) => {
    const fullFilePath2 = path.resolve(process.cwd(), filePath2);
    const file1AsObject = getParsedData(fullFilePath1);
    const file2AsObject = getParsedData(fullFilePath2);
-   const result = makeStylish(makeAsTree(file1AsObject, file2AsObject));
+   const result = makeStylish(makeTree(file1AsObject, file2AsObject));
    return result;
 }
 
