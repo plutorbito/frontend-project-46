@@ -31,7 +31,7 @@ const makeStylish = (values) => {
           case 'changed': {
             const preparedRemovedValue = iter(obj.removedValue, depth + 1);
             const preparedAddedValue = iter(obj.addedValue, depth + 1);
-            return `${getSpaces(depth)}${'- '}${obj.key}: ${preparedRemovedValue}\n${getSpaces(depth)}${"+ "}${obj.key}: ${preparedAddedValue}`;
+            return `${getSpaces(depth)}${'- '}${obj.key}: ${preparedRemovedValue}\n${getSpaces(depth)}${'+ '}${obj.key}: ${preparedAddedValue}`;
           }
           default:
             throw new Error(`Unknown status: '${obj.status}'!`);
