@@ -1,35 +1,46 @@
 import _ from 'lodash';
 
-const getStatusIndicator = (obj) => {
-  switch (obj.status) {
-    case "unchanged":
-      return "  ";
-    case "removed":
-      return "- ";
-    case "added":
-      return "+ ";
-    default:
-      throw new Error(`Unknown status: '${obj.status}'!`);
-  }
+const space = "  ";
+const spaceCount = 2;
+
+const getSpaces = (depth) => {
+  const spaces = space.repeat(depth * spaceCount - 1);
+  return spaces;
 };
 
 const makeStylish = (values) => {
-  const space = "  ";
-  const spaceCount = 2;
   const iter = (data, depth) => {
-    let lines = [];
-    const spaces = space.repeat(depth * spaceCount - 1);
+    let lines;
     let preparedValue;
     if (Array.isArray(data)) {
       lines = data.map((obj) => {
-        const status = getStatusIndicator(obj);
-        preparedValue = iter(obj.value, depth + 1);
-        return `${spaces}${status}${obj.key}: ${preparedValue}`;
+        switch (obj.status) {
+          case "nested changes":
+          case "unchanged": {
+            preparedValue = iter(obj.value, depth + 1);
+            return `${getSpaces(depth)}${"  "}${obj.key}: ${preparedValue}`;
+          }
+          case "removed": {
+            preparedValue = iter(obj.value, depth + 1);
+            return `${getSpaces(depth)}${"- "}${obj.key}: ${preparedValue}`;
+          }
+          case "added": {
+            preparedValue = iter(obj.value, depth + 1);
+            return `${getSpaces(depth)}${"+ "}${obj.key}: ${preparedValue}`;
+          }
+          case "changed": {
+            const preparedRemovedValue = iter(obj.removedValue, depth + 1);
+            const preparedAddedValue = iter(obj.addedValue, depth + 1);
+            return `${getSpaces(depth)}${"- "}${obj.key}: ${preparedRemovedValue}\n${getSpaces(depth)}${"+ "}${obj.key}: ${preparedAddedValue}`;
+          }
+          default:
+            throw new Error(`Unknown status: '${obj.status}'!`);
+        }
       });
     } else if (_.isObject(data)) {
       lines = Object.entries(data).map(([key, value]) => {
         preparedValue = iter(value, depth + 1);
-        return `${spaces}${space}${key}: ${preparedValue}`;
+        return `${getSpaces(depth)}${space}${key}: ${preparedValue}`;
       });
     } else return `${data}`;
 
@@ -38,6 +49,5 @@ const makeStylish = (values) => {
     return result;
   };
   return iter(values, 1);
- };
-
+};
  export default makeStylish;
