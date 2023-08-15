@@ -50,4 +50,4 @@ const makeStylish = (values) => {
   };
   return iter(values, 1);
 };
- export default makeStylish;
+export default makeStylish;
