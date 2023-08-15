@@ -18,13 +18,13 @@ const makePlain = (data, path = '') => {
           throw new Error(`Unknown status: '${obj.status}'!`);
       }
     }).join('\n');
-  } 
+  }
   if (_.isObject(data)) {
     return ['[complex value]'];
-  } 
+  }
   if (_.isString(data)) {
     return [`'${data}'`];
-  } 
+  }
   return [`${data}`];
 };
 
