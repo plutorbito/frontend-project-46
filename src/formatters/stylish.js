@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const space = "  ";
+const space = '  ';
 const spaceCount = 2;
 
 const getSpaces = (depth) => {
@@ -15,23 +15,23 @@ const makeStylish = (values) => {
     if (Array.isArray(data)) {
       lines = data.map((obj) => {
         switch (obj.status) {
-          case "nested changes":
-          case "unchanged": {
+          case 'nested changes':
+          case 'unchanged': {
             preparedValue = iter(obj.value, depth + 1);
-            return `${getSpaces(depth)}${"  "}${obj.key}: ${preparedValue}`;
+            return `${getSpaces(depth)}${'  '}${obj.key}: ${preparedValue}`;
           }
-          case "removed": {
+          case 'removed': {
             preparedValue = iter(obj.value, depth + 1);
-            return `${getSpaces(depth)}${"- "}${obj.key}: ${preparedValue}`;
+            return `${getSpaces(depth)}${'- '}${obj.key}: ${preparedValue}`;
           }
-          case "added": {
+          case 'added': {
             preparedValue = iter(obj.value, depth + 1);
-            return `${getSpaces(depth)}${"+ "}${obj.key}: ${preparedValue}`;
+            return `${getSpaces(depth)}${'+ '}${obj.key}: ${preparedValue}`;
           }
-          case "changed": {
+          case 'changed': {
             const preparedRemovedValue = iter(obj.removedValue, depth + 1);
             const preparedAddedValue = iter(obj.addedValue, depth + 1);
-            return `${getSpaces(depth)}${"- "}${obj.key}: ${preparedRemovedValue}\n${getSpaces(depth)}${"+ "}${obj.key}: ${preparedAddedValue}`;
+            return `${getSpaces(depth)}${'- '}${obj.key}: ${preparedRemovedValue}\n${getSpaces(depth)}${"+ "}${obj.key}: ${preparedAddedValue}`;
           }
           default:
             throw new Error(`Unknown status: '${obj.status}'!`);
@@ -45,7 +45,7 @@ const makeStylish = (values) => {
     } else return `${data}`;
 
     const outSpace = space.repeat(depth * spaceCount - spaceCount);
-    const result = ["{", ...lines, `${outSpace}}`].join("\n");
+    const result = ['{', ...lines, `${outSpace}}`].join('\n');
     return result;
   };
   return iter(values, 1);

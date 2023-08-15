@@ -67,6 +67,9 @@ Property 'group1.nest' was updated. From [complex value] to 'str'
 Property 'group2' was removed
 Property 'group3' was added with value: [complex value]`;
 
+const expectedJsonResult = 
+`[{"key":"common","value":[{"key":"follow","value":false,"status":"added"},{"key":"setting1","value":"Value 1","status":"unchanged"},{"key":"setting2","value":200,"status":"removed"},{"key":"setting3","removedValue":true,"addedValue":null,"status":"changed"},{"key":"setting4","value":"blah blah","status":"added"},{"key":"setting5","value":{"key5":"value5"},"status":"added"},{"key":"setting6","value":[{"key":"doge","value":[{"key":"wow","removedValue":"","addedValue":"so much","status":"changed"}],"status":"nested changes"},{"key":"key","value":"value","status":"unchanged"},{"key":"ops","value":"vops","status":"added"}],"status":"nested changes"}],"status":"nested changes"},{"key":"group1","value":[{"key":"baz","removedValue":"bas","addedValue":"bars","status":"changed"},{"key":"foo","value":"bar","status":"unchanged"},{"key":"nest","removedValue":{"key":"value"},"addedValue":"str","status":"changed"}],"status":"nested changes"},{"key":"group2","value":{"abc":12345,"deep":{"id":45}},"status":"removed"},{"key":"group3","value":{"deep":{"id":{"number":45}},"fee":100500},"status":"added"}]`
+
 test('Stylish genDiff for json', () => {
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'))).toEqual(expectedStylishResult);
 });
@@ -87,4 +90,12 @@ test('Plain genDiff for json', () => {
 
 test('Plain genDiff for yaml', () => {
   expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'plain')).toEqual(expectedPlainResult);
+});
+
+test('Json genDiff for json', () => {
+  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'json')).toEqual(expectedJsonResult);
+});
+
+test('Json genDiff for yaml', () => {
+  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'json')).toEqual(expectedJsonResult);
 });
