@@ -1,53 +1,56 @@
 import _ from 'lodash';
 
-const space = '  ';
+const space = "  ";
 const spaceCount = 2;
+const getSpaces = (depth) => space.repeat(depth * spaceCount - 1);
 
-const getSpaces = (depth) => {
-  const spaces = space.repeat(depth * spaceCount - 1);
-  return spaces;
+const getRightLayout = (lines, depth) => {
+  const outSpace = space.repeat(depth * spaceCount - spaceCount);
+  const result = ['{', ...lines, `${outSpace}}`].join('\n');
+  return result;
 };
+
+const transformTree = (tree, depth = 1) => {
+  if (Array.isArray(tree)) {
+    return tree;
+  } 
+  if (_.isObject(tree)) {
+    const result = Object.entries(tree).map(([key, value]) => `${getSpaces(depth)}${space}${key}: ${transformTree(value, depth + 1)}`);
+    const result2 = getRightLayout(result, depth);
+    return result2;
+  } 
+  return `${tree}`;
+}
 
 const makeStylish = (values) => {
   const iter = (data, depth) => {
-    let lines;
-    let preparedValue;
-    if (Array.isArray(data)) {
-      lines = data.map((obj) => {
+      const lines = data.map((obj) => {
         switch (obj.status) {
           case 'nested changes':
-          case 'unchanged': {
-            preparedValue = iter(obj.value, depth + 1);
-            return `${getSpaces(depth)}${'  '}${obj.key}: ${preparedValue}`;
+            {
+              return `${getSpaces(depth)}${'  '}${obj.key}: ${iter(obj.value, depth + 1)}`;
+            }
+          case 'unchanged': 
+          {
+            return `${getSpaces(depth)}${'  '}${obj.key}: ${transformTree(obj.value, depth + 1)}`;
           }
           case 'removed': {
-            preparedValue = iter(obj.value, depth + 1);
-            return `${getSpaces(depth)}${'- '}${obj.key}: ${preparedValue}`;
+            return `${getSpaces(depth)}${'- '}${obj.key}: ${transformTree(obj.value, depth + 1)}`;
           }
           case 'added': {
-            preparedValue = iter(obj.value, depth + 1);
-            return `${getSpaces(depth)}${'+ '}${obj.key}: ${preparedValue}`;
+            return `${getSpaces(depth)}${'+ '}${obj.key}: ${transformTree(obj.value, depth + 1)}`;
           }
           case 'changed': {
-            const preparedRemovedValue = iter(obj.removedValue, depth + 1);
-            const preparedAddedValue = iter(obj.addedValue, depth + 1);
-            return `${getSpaces(depth)}${'- '}${obj.key}: ${preparedRemovedValue}\n${getSpaces(depth)}${'+ '}${obj.key}: ${preparedAddedValue}`;
+            return `${getSpaces(depth)}${'- '}${obj.key}: ${transformTree(obj.removedValue, depth + 1)}\n${getSpaces(depth)}${'+ '}${obj.key}: ${transformTree(obj.addedValue, depth + 1)}`;
           }
           default:
             throw new Error(`Unknown status: '${obj.status}'!`);
         }
       });
-    } else if (_.isObject(data)) {
-      lines = Object.entries(data).map(([key, value]) => {
-        preparedValue = iter(value, depth + 1);
-        return `${getSpaces(depth)}${space}${key}: ${preparedValue}`;
-      });
-    } else return `${data}`;
-
-    const outSpace = space.repeat(depth * spaceCount - spaceCount);
-    const result = ['{', ...lines, `${outSpace}}`].join('\n');
+    const result = getRightLayout(lines, depth);
     return result;
   };
   return iter(values, 1);
 };
+
 export default makeStylish;
