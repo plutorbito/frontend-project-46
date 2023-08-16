@@ -40,8 +40,8 @@ const makeStylish = (values) => {
           throw new Error(`Unknown status: '${obj.status}'!`);
       }
     });
-  const result = getRightLayout(lines, depth);
-  return result;
+    const result = getRightLayout(lines, depth);
+    return result;
   };
   return iter(values, 1);
 };
