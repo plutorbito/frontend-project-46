@@ -26,7 +26,7 @@ const makeStylish = (values) => {
   const iter = (data, depth) => {
     const lines = data.map((obj) => {
       switch (obj.status) {
-        case 'nested changes':
+        case 'nested':
           return `${getSpaces(depth)}${'  '}${obj.key}: ${iter(obj.value, depth + 1)}`;
         case 'unchanged':
           return `${getSpaces(depth)}${'  '}${obj.key}: ${transformTree(obj.value, depth + 1)}`;

@@ -20,7 +20,7 @@ const makePlain = (data, path = '') => {
         return `Property '${path}${obj.key}' was removed`;
       case 'added':
         return `Property '${path}${obj.key}' was added with value: ${getValue(obj.value)}`;
-      case 'nested changes':
+      case 'nested':
         return makePlain(obj.value, `${path}${obj.key}.`);
       case 'changed':
         return `Property '${path}${obj.key}' was updated. From ${getValue(obj.removedValue)} to ${getValue(obj.addedValue)}`;

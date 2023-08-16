@@ -5,7 +5,7 @@ const makeTree = (obj1, obj2) => {
   return allKeys.map((key) => {
     if (_.isObject(obj1[key]) && _.isObject(obj2[key])) {
       const nestedDiff = makeTree(obj1[key], obj2[key]);
-      return { key, value: nestedDiff, status: 'nested changes' };
+      return { key, value: nestedDiff, status: 'nested' };
     }
     if (obj1.hasOwnProperty(key) && !obj2.hasOwnProperty(key)) {
       return { key, value: obj1[key], status: 'removed' };
