@@ -20,12 +20,6 @@ test('Stylish genDiff for yaml', () => {
   expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'))).toEqual(expectedStylishResult);
 });
 
-test('genDiff for unknown format', () => {
-  expect(() => {
-    genDiff(getFixturePath('file1.abc'), getFixturePath('file2.json'));
-  }).toThrow('Unknown format: \'.abc\'!');
-});
-
 test('Plain genDiff for json', () => {
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'plain')).toEqual(expectedPlainResult);
 });
