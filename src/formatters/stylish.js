@@ -25,15 +25,16 @@ const transformTree = (tree, depth = 1) => {
 const makeStylish = (values) => {
   const iter = (data, depth) => {
     const lines = data.map((obj) => {
+      const preparedValue = transformTree(obj.value, depth + 1);
       switch (obj.status) {
         case 'nested':
           return `${getSpaces(depth)}${'  '}${obj.key}: ${iter(obj.value, depth + 1)}`;
         case 'unchanged':
-          return `${getSpaces(depth)}${'  '}${obj.key}: ${transformTree(obj.value, depth + 1)}`;
+          return `${getSpaces(depth)}${'  '}${obj.key}: ${preparedValue}`;
         case 'removed':
-          return `${getSpaces(depth)}${'- '}${obj.key}: ${transformTree(obj.value, depth + 1)}`;
+          return `${getSpaces(depth)}${'- '}${obj.key}: ${preparedValue}`;
         case 'added':
-          return `${getSpaces(depth)}${'+ '}${obj.key}: ${transformTree(obj.value, depth + 1)}`;
+          return `${getSpaces(depth)}${'+ '}${obj.key}: ${preparedValue}`;
         case 'changed':
           return `${getSpaces(depth)}${'- '}${obj.key}: ${transformTree(obj.removedValue, depth + 1)}\n${getSpaces(depth)}${'+ '}${obj.key}: ${transformTree(obj.addedValue, depth + 1)}`;
         default:
