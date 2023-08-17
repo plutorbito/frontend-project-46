@@ -13,26 +13,20 @@ const expectedStylishResult = readFileSync(getFixturePath('expectedStylishResult
 const expectedPlainResult = readFileSync(getFixturePath('expectedPlainResult.txt'), 'utf-8');
 const expectedJsonResult = readFileSync(getFixturePath('expectedJsonResult.txt'), 'utf-8');
 
-test('Stylish genDiff for json', () => {
-  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'))).toEqual(expectedStylishResult);
+test.each([
+  ['file1.json', 'file2.json', expectedStylishResult],
+  ['file1.yaml', 'file2.yaml', expectedStylishResult],
+])('gendiff for %s, %s in default format', (a, b, expected) => {
+  expect(genDiff(getFixturePath(a), getFixturePath(b))).toEqual(expected);
 });
 
-test('Stylish genDiff for yaml', () => {
-  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'))).toEqual(expectedStylishResult);
-});
-
-test('Plain genDiff for json', () => {
-  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'plain')).toEqual(expectedPlainResult);
-});
-
-test('Plain genDiff for yaml', () => {
-  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'plain')).toEqual(expectedPlainResult);
-});
-
-test('Json genDiff for json', () => {
-  expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'json')).toEqual(expectedJsonResult);
-});
-
-test('Json genDiff for yaml', () => {
-  expect(genDiff(getFixturePath('file1.yaml'), getFixturePath('file2.yaml'), 'json')).toEqual(expectedJsonResult);
+test.each([
+  ['file1.json', 'file2.json', 'stylish', expectedStylishResult],
+  ['file1.yaml', 'file2.yaml', 'stylish', expectedStylishResult],
+  ['file1.json', 'file2.json', 'plain', expectedPlainResult],
+  ['file1.yaml', 'file2.yaml', 'plain', expectedPlainResult],
+  ['file1.json', 'file2.json', 'json', expectedJsonResult],
+  ['file1.yaml', 'file2.yaml', 'json', expectedJsonResult],
+])('gendiff for %s, %s in %s format', (a, b, format, expected) => {
+  expect(genDiff(getFixturePath(a), getFixturePath(b), format)).toEqual(expected);
 });
