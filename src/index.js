@@ -1,9 +1,9 @@
+import { readFileSync } from 'node:fs';
 import process from 'node:process';
 import path from 'path';
 import makeTree from './makeTree.js';
 import getParsedData from './parsers.js';
 import selectFormatter from './formatters/index.js';
-import { readFileSync } from 'node:fs';
 
 const genDiff = (filePath1, filePath2, formatName = 'stylish') => {
   const fullFilePath1 = path.resolve(process.cwd(), filePath1);
