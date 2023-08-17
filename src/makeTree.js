@@ -7,15 +7,15 @@ const makeTree = (obj1, obj2) => {
       const nestedDiff = makeTree(obj1[key], obj2[key]);
       return { key, value: nestedDiff, status: 'nested' };
     }
-    if (obj1.hasOwnProperty(key) && !obj2.hasOwnProperty(key)) {
+    if (_.has(obj1, key) && !_.has(obj2, key)) {
       return { key, value: obj1[key], status: 'removed' };
     }
-    if (!obj1.hasOwnProperty(key) && obj2.hasOwnProperty(key)) {
+    if (!_.has(obj1, key) && _.has (obj2, key)) {
       return { key, value: obj2[key], status: 'added' };
     }
     if (obj1[key] !== obj2[key]) {
       return {
-        key: key,
+        key,
         removedValue: obj1[key],
         addedValue: obj2[key],
         status: 'changed',
