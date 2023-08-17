@@ -10,7 +10,7 @@ const makeTree = (obj1, obj2) => {
     if (_.has(obj1, key) && !_.has(obj2, key)) {
       return { key, value: obj1[key], status: 'removed' };
     }
-    if (!_.has(obj1, key) && _.has (obj2, key)) {
+    if (!_.has(obj1, key) && _.has(obj2, key)) {
       return { key, value: obj2[key], status: 'added' };
     }
     if (obj1[key] !== obj2[key]) {
