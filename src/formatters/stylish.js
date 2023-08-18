@@ -16,8 +16,7 @@ const transformTree = (tree, depth = 1) => {
   }
   if (_.isObject(tree)) {
     const result = Object.entries(tree).map(([key, value]) => `${getSpaces(depth)}${space}${key}: ${transformTree(value, depth + 1)}`);
-    const result2 = getRightLayout(result, depth);
-    return result2;
+    return getRightLayout(result, depth);
   }
   return `${tree}`;
 };
@@ -35,14 +34,16 @@ const makeStylish = (values) => {
           return `${getSpaces(depth)}${'- '}${obj.key}: ${preparedValue}`;
         case 'added':
           return `${getSpaces(depth)}${'+ '}${obj.key}: ${preparedValue}`;
-        case 'changed':
-          return `${getSpaces(depth)}${'- '}${obj.key}: ${transformTree(obj.removedValue, depth + 1)}\n${getSpaces(depth)}${'+ '}${obj.key}: ${transformTree(obj.addedValue, depth + 1)}`;
+        case 'changed': {
+          const removedStr = `${getSpaces(depth)}${'- '}${obj.key}: ${transformTree(obj.removedValue, depth + 1)}`;
+          const addedStr = `${getSpaces(depth)}${'+ '}${obj.key}: ${transformTree(obj.addedValue, depth + 1)}`;
+          return `${removedStr}\n${addedStr}`;
+        };
         default:
           throw new Error(`Unknown status: '${obj.status}'!`);
       }
     });
-    const result = getRightLayout(lines, depth);
-    return result;
+    return getRightLayout(lines, depth);
   };
   return iter(values, 1);
 };
