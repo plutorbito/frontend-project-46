@@ -13,13 +13,8 @@ const expectedPlainResult = readFileSync(getFixturePath('expectedPlainResult.txt
 const expectedJsonResult = readFileSync(getFixturePath('expectedJsonResult.txt'), 'utf-8');
 
 test.each([
-  ['file1.json', 'file2.json', expectedStylishResult],
-  ['file1.yaml', 'file2.yaml', expectedStylishResult],
-])('gendiff for %s, %s in default format', (a, b, expected) => {
-  expect(genDiff(getFixturePath(a), getFixturePath(b))).toEqual(expected);
-});
-
-test.each([
+  ['file1.json', 'file2.json', undefined, expectedStylishResult],
+  ['file1.yaml', 'file2.yaml', undefined, expectedStylishResult],
   ['file1.json', 'file2.json', 'stylish', expectedStylishResult],
   ['file1.yaml', 'file2.yaml', 'stylish', expectedStylishResult],
   ['file1.json', 'file2.json', 'plain', expectedPlainResult],
