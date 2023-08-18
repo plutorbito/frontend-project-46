@@ -38,7 +38,7 @@ const makeStylish = (values) => {
           const removedStr = `${getSpaces(depth)}${'- '}${obj.key}: ${transformTree(obj.removedValue, depth + 1)}`;
           const addedStr = `${getSpaces(depth)}${'+ '}${obj.key}: ${transformTree(obj.addedValue, depth + 1)}`;
           return `${removedStr}\n${addedStr}`;
-        };
+        }
         default:
           throw new Error(`Unknown status: '${obj.status}'!`);
       }
