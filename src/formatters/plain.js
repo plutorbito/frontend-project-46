@@ -2,12 +2,12 @@ import _ from 'lodash';
 
 const getValue = (value) => {
   if (Array.isArray(value) || _.isObject(value)) {
-    return ['[complex value]'];
+    return '[complex value]';
   }
   if (_.isString(value)) {
-    return [`'${value}'`];
+    return `'${value}'`;
   }
-  return [`${value}`];
+  return `${value}`;
 };
 
 const makePlain = (data, path = '') => {
